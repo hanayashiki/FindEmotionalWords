@@ -70,6 +70,7 @@ def train():
             print("loop %d recall: " % (i))
             print(sess.run(recall, feed_dict={xs: x_data, ys: y_data, threshold: default_threshold}))
 
+
     saver = tf.train.Saver()
     save_path = saver.save(sess, model_path)
     print("W1:")
