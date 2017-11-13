@@ -66,10 +66,12 @@ def build():
 
     accuracy = tf.reduce_mean(tf.cast(tf.equal(one_zero, ys), tf.float32))
 
-    print("model built")
-    return (optimizer, loss, sigmoid_output, accuracy, one_zero)
+    recall = tf.reduce_sum(tf.multiply(one_zero, ys)) / tf.reduce_sum(ys)
 
-def train(loss, optimizer, accuracy):
+    print("model built")
+    return (optimizer, loss, sigmoid_output, accuracy, recall, one_zero)
+
+def train(loss, optimizer, accuracy, recall):
     print("start training")
     saver = tf.train.Saver()
     try:
@@ -84,17 +86,19 @@ def train(loss, optimizer, accuracy):
             current_losses = sess.run(loss, feed_dict={xs: x_data, ys: y_data})
             current_training_accuracy = sess.run(accuracy, feed_dict={xs: x_data, ys: y_data})
             current_test_accuracy = sess.run(accuracy, feed_dict={xs: x_test, ys: y_test})
+            current_recall = sess.run(recall, feed_dict={xs: x_test, ys: y_test})
             print("Loop " + str(i) + " entropy = "+str(current_losses))
-            print("accuracy on training set: "+str(current_training_accuracy))
+            print("accuracy on training set: " + str(current_training_accuracy))
+            print("recall on test set: " + str(current_recall))
             print("accuracy on test set: " + str(current_test_accuracy))
             saver.save(sess, model_path)
         sess.run(optimizer, feed_dict={xs: x_data, ys: y_data})
 
 
 def main():
-    optimizer, losses, sigmoid_output, accuracy, one_zero = build()
+    optimizer, losses, sigmoid_output, accuracy, recall, one_zero = build()
     sess.run(tf.global_variables_initializer())
-    train(losses, optimizer, accuracy)
+    train(losses, optimizer, accuracy, recall)
 
 if __name__ == '__main__':
     x_data_all, y_data_all = getDataXY()

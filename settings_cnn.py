@@ -8,12 +8,12 @@ l2_output_width = 20
 
 category_count = sequence_length**2
 
-epoch = 1000
+epoch = 100000
 
 training_set_size = 15000
 test_set_size = 20000
 
-learning_rate = 0.01
+learning_rate = 0.0001
 
 training_source = "emotion_addr.csv"
 test_source = "test_sentence.csv"
@@ -24,4 +24,4 @@ model_path = "record/cnn_record"
 
 batch_size = 32
 
-threshold = 0.7
+threshold = 0.5
