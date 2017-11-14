@@ -1,0 +1,125 @@
+sequence_length = 20
+embedding_size = 200
+
+filter_nums = [150,100,150,150,200,200,200]
+filter_sizes = [1,2,3,4,5,6,8]
+l1_output_width = 20
+l2_output_width = 20
+
+category_count = sequence_length**2
+
+epoch = 100
+
+training_set_size = 1000
+
+learning_rate = 0.01
+
+training_source = "emotion_addr.csv"
+
+model_path = "record/cnn_record"
+.Loop 0 entropy = 252060.0
+.Loop 1 entropy = 252046.0
+.Loop 2 entropy = 252020.0
+.Loop 3 entropy = 252014.0
+.Loop 4 entropy = 252010.0
+.Loop 5 entropy = 252015.0
+.Loop 6 entropy = 252015.0
+.Loop 7 entropy = 252015.0
+.Loop 8 entropy = 252012.0
+.Loop 9 entropy = 252011.0
+.Loop 10 entropy = 252009.0
+.Loop 11 entropy = 252008.0
+.Loop 12 entropy = 252005.0
+.Loop 13 entropy = 252001.0
+.Loop 14 entropy = 251997.0
+.Loop 15 entropy = 251995.0
+.Loop 16 entropy = 251994.0
+.Loop 17 entropy = 251994.0
+.Loop 18 entropy = 251993.0
+.Loop 19 entropy = 251992.0
+.Loop 20 entropy = 251991.0
+.Loop 21 entropy = 251990.0
+.Loop 22 entropy = 251990.0
+.Loop 23 entropy = 251990.0
+.Loop 24 entropy = 251990.0
+.Loop 25 entropy = 251990.0
+.Loop 26 entropy = 251990.0
+.Loop 27 entropy = 251990.0
+.Loop 28 entropy = 251990.0
+.Loop 29 entropy = 251990.0
+.Loop 30 entropy = 251990.0
+.Loop 31 entropy = 251990.0
+.Loop 32 entropy = 251990.0
+.Loop 33 entropy = 251989.0
+.Loop 34 entropy = 251989.0
+.Loop 35 entropy = 251989.0
+.Loop 36 entropy = 251989.0
+.Loop 37 entropy = 251989.0
+.Loop 38 entropy = 251988.0
+.Loop 39 entropy = 251988.0
+.Loop 40 entropy = 251988.0
+.Loop 41 entropy = 251988.0
+.Loop 42 entropy = 251988.0
+.Loop 43 entropy = 251988.0
+.Loop 44 entropy = 251988.0
+.Loop 45 entropy = 251988.0
+.Loop 46 entropy = 251988.0
+.Loop 47 entropy = 251988.0
+.Loop 48 entropy = 251988.0
+.Loop 49 entropy = 251988.0
+.Loop 50 entropy = 251988.0
+.Loop 51 entropy = 251988.0
+.Loop 52 entropy = 251988.0
+.Loop 53 entropy = 251988.0
+.Loop 54 entropy = 251988.0
+.Loop 55 entropy = 251988.0
+.Loop 56 entropy = 251988.0
+.Loop 57 entropy = 251988.0
+.Loop 58 entropy = 251988.0
+.Loop 59 entropy = 251988.0
+.Loop 60 entropy = 251988.0
+.Loop 22 entropy = 0.000988293
+
+sequence_length = 20
+embedding_size = 200
+
+filter_nums = [150,100,150,150,200,200,200]
+filter_sizes = [1,2,3,4,5,6,8]
+l1_output_width = 20
+l2_output_width = 20
+
+category_count = sequence_length**2
+
+epoch = 100000
+
+training_set_size = 15000
+test_set_size = 20000
+
+learning_rate = 0.0001
+
+training_source = "emotion_addr.csv"
+test_source = "test_sentence.csv"
+
+pair_indices = "pair_indices.csv"
+
+model_path = "record/cnn_record"
+
+batch_size = 32
+
+threshold = 0.5
+
+pos_weight = 1
+
+accuracy on training set: 0.999531
+precision on training set: 0.888889
+recall on training set: 1.0
+recall on test set: 0.213202
+precision on test set: 0.189818
+accuracy on test set: 0.992968
+.Loop 23 entropy = 0.00468676
+accuracy on training set: 0.999219
+precision on training set: 0.818182
+recall on training set: 1.0
+recall on test set: 0.213202
+precision on test set: 0.189818
+accuracy on test set: 0.992968

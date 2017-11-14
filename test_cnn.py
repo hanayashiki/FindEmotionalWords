@@ -51,14 +51,16 @@ def add_layer(inputs, in_size, out_size, activation_function=None):
 def build():
     h_pool_flat, h_pool_flat_width = add_filters_and_pools()
 
-    (l1, W1, b1) = add_layer(h_pool_flat, h_pool_flat_width, category_count,
+    h_drop = tf.nn.dropout(h_pool_flat, drop_out_rate)
+
+    (l1, W1, b1) = add_layer(h_drop, h_pool_flat_width, category_count,
                              activation_function=None)
 
     sigmoid_output = tf.nn.sigmoid(l1, name="sigmoid_output")
 
-    losses = tf.nn.sigmoid_cross_entropy_with_logits(logits=l1, labels=ys)
+    losses = tf.nn.weighted_cross_entropy_with_logits(ys, l1, pos_weight=pos_weight)
 
-    loss = tf.reduce_sum(losses)
+    loss = tf.reduce_mean(losses)
 
     optimizer = tf.train.AdamOptimizer(learning_rate).minimize(loss)
 
@@ -68,37 +70,50 @@ def build():
 
     recall = tf.reduce_sum(tf.multiply(one_zero, ys)) / tf.reduce_sum(ys)
 
-    print("model built")
-    return (optimizer, loss, sigmoid_output, accuracy, recall, one_zero)
+    precision = tf.reduce_sum(tf.multiply(one_zero, ys)) / tf.reduce_sum(one_zero)
 
-def train(loss, optimizer, accuracy, recall):
+    print("model built")
+    return (optimizer, loss, sigmoid_output, accuracy, recall, precision, one_zero)
+
+def train(loss, optimizer, accuracy, recall, precision):
     print("start training")
     saver = tf.train.Saver()
     try:
         saver.restore(sess, model_path)
     except:
         print("nothing to load")
+        input()
 
     for i in range(epoch):
         print(".", end='')
         x_data, y_data = data.getNextXY()
         if i % 1 == 0:
             current_losses = sess.run(loss, feed_dict={xs: x_data, ys: y_data})
+
             current_training_accuracy = sess.run(accuracy, feed_dict={xs: x_data, ys: y_data})
+            current_training_precision = sess.run(precision, feed_dict={xs: x_data, ys: y_data})
+            current_training_recall = sess.run(recall, feed_dict={xs: x_data, ys: y_data})
+
             current_test_accuracy = sess.run(accuracy, feed_dict={xs: x_test, ys: y_test})
-            current_recall = sess.run(recall, feed_dict={xs: x_test, ys: y_test})
+            current_test_precision = sess.run(precision, feed_dict={xs: x_test, ys: y_test})
+            current_test_recall = sess.run(recall, feed_dict={xs: x_test, ys: y_test})
             print("Loop " + str(i) + " entropy = "+str(current_losses))
+
             print("accuracy on training set: " + str(current_training_accuracy))
-            print("recall on test set: " + str(current_recall))
+            print("precision on training set: " + str(current_training_precision))
+            print("recall on training set: " + str(current_training_recall))
+
+            print("recall on test set: " + str(current_test_recall))
+            print("precision on test set: " + str(current_test_precision))
             print("accuracy on test set: " + str(current_test_accuracy))
             saver.save(sess, model_path)
         sess.run(optimizer, feed_dict={xs: x_data, ys: y_data})
 
 
 def main():
-    optimizer, losses, sigmoid_output, accuracy, recall, one_zero = build()
+    optimizer, losses, sigmoid_output, accuracy, recall, precision, one_zero = build()
     sess.run(tf.global_variables_initializer())
-    train(losses, optimizer, accuracy, recall)
+    train(losses, optimizer, accuracy, recall, precision)
 
 if __name__ == '__main__':
     x_data_all, y_data_all = getDataXY()

@@ -20,8 +20,12 @@ test_source = "test_sentence.csv"
 
 pair_indices = "pair_indices.csv"
 
-model_path = "record/cnn_record"
+model_path = "record/cnn_record_against_overfit_with_drop_out"
 
 batch_size = 32
 
 threshold = 0.5
+
+pos_weight = 1
+
+drop_out_rate = 0.5
